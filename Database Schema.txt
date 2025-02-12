@@ -1,0 +1,31 @@
+-- Create a database to store OCR results
+CREATE DATABASE ocr_database;
+
+-- Switch to the newly created database
+USE ocr_database;
+
+-- Create a table for storing OCR extracted data
+CREATE TABLE IF NOT EXISTS ocr_data (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,  -- Automatically increments the ID
+    method TEXT NOT NULL,                  -- The method used for OCR (e.g., 'Tesseract')
+    patient_name TEXT,                     -- Patient's Name
+    dob TEXT,                              -- Date of Birth
+    date_of_visit TEXT,                    -- Date of Visit
+    injection TEXT,                        -- Injection (Yes/No)
+    exercise_therapy TEXT,                 -- Exercise Therapy (Yes/No)
+    pain_symptoms TEXT,                    -- JSON or Text for pain symptom ratings
+    difficulty_ratings TEXT,               -- JSON or Text for difficulty ratings
+    patient_changes TEXT,                  -- JSON or Text for patient changes
+    medical_assistant_data TEXT,           -- JSON or Text for medical assistant data
+    form_json TEXT,                        -- The full extracted JSON data as text
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Automatically records the insertion timestamp
+);
+
+-- Example of inserting OCR data into the table
+-- The following is a sample insert statement. Replace values with actual data.
+INSERT INTO ocr_data (method, patient_name, dob, date_of_visit, injection, exercise_therapy, pain_symptoms, difficulty_ratings, patient_changes, medical_assistant_data, form_json)
+VALUES ('Tesseract', 'John Doe', '01/01/1980', '01/01/2025', 'Yes', 'No', '{"pain": 5, "numbness": 3, "tingling": 2, "burning": 4, "tightness": 6}', 
+        '{"bending": 3, "putting_on_shoes": 2, "sleeping": 4}', 
+        '{"since_last_treatment": "Improved", "since_start_of_treatment": "Stable", "last_3_days": "Worsened"}',
+        '{"blood_pressure": "120/80", "hr": "72", "weight": "70", "height": "5\'10\"", "spo2": "98", "temperature": "36.6", "blood_glucose": "90", "respirations": "16"}',
+        '{"patient_name": "John Doe", "dob": "01/01/1980", "date_of_visit": "01/01/2025", "injection": "Yes", "exercise_therapy": "No", "pain_symptoms": {"pain": 5, "numbness": 3, "tingling": 2, "burning": 4, "tightness": 6}, "difficulty_ratings": {"bending": 3, "putting_on_shoes": 2, "sleeping": 4}, "patient_changes": {"since_last_treatment": "Improved", "since_start_of_treatment": "Stable", "last_3_days": "Worsened"}, "medical_assistant_data": {"blood_pressure": "120/80", "hr": "72", "weight": "70", "height": "5\'10\"", "spo2": "98", "temperature": "36.6", "blood_glucose": "90", "respirations": "16"}}');
