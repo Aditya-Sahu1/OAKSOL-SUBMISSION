@@ -19,7 +19,7 @@ def extract_text_tesseract(image_path):
     return pytesseract.image_to_string(img, config="--psm 6").strip()
 def extract_data(text):
     data = {}
-    data['patient_name'] = re.search(r"Patient's Name[:\s]+([A-Za-z\s]+)", text)
+    data['patient_name'] = re.search(r"Patient's Name[:\s]+([A-Z\(.)?a-z\s]+)", text)
     data['dob'] = re.search(r"DOB[:\s]+(\d{2}/\d{2}/\d{4})", text)
     data['date_of_visit'] = re.search(r"Date of Visit[:\s]+(\d{2}/\d{2}/\d{4})", text)
     data['injection'] = re.search(r"Injection[:\s]+(Yes|No)", text)
@@ -82,10 +82,12 @@ def save_results(data, method="Tesseract"):
 
     conn.commit()
     conn.close()
-image_path = "C:\\Users\\hp\\Desktop\\image1.png"  # Change to your image file
+image_path = "C:\\Users\\hp\\Desktop\\OCR\\image1.png"# Change to your image file
 text = extract_text_tesseract(image_path)
 extracted_data = extract_data(text)
-save_results(extracted_data, "Tesseract")
+print("extracted data:\n")
+print(text)
+# save_results(extracted_data, "Tesseract")
 
-print("\nExtracted Data:")
-print(extracted_data)
+# print("\nExtracted Data:")
+# print(extracted_data)
